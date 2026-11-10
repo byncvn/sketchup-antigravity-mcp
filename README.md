@@ -1,28 +1,28 @@
-# SketchUp MCP + Librería `Muebles` para Antigravity (Windows & macOS)
+# SketchUp MCP + `Muebles` Library for Antigravity (Windows & macOS)
 
-Integración optimizada entre **SketchUp (2024/2025/2026)**, **OpenCutList** y **Antigravity** mediante el protocolo MCP, diseñada para fabricar muebles en melamina/madera ahorrando hasta un **90% de tokens**.
+Optimized integration between **SketchUp (2024/2025/2026)**, **OpenCutList**, and **Antigravity** via the Model Context Protocol (MCP), engineered for parametric melamine/woodworking furniture design while saving up to **90% of tokens**.
 
-## Características Principales
-* **Auto-arranque silencioso en SketchUp:** El servidor TCP (`127.0.0.1:9876`) inicia automáticamente al abrir SketchUp sin abrir la ventana de la consola Ruby.
-* **Librería nativa `Muebles` (`muebles_lib.rb`):**
-  * **Nivel 1 (1 línea):** `Muebles.cajon(...)`, `Muebles.cajonera(...)` con cálculo automático de correderas (`13 mm`), zócalos (`80 mm`), amarres (`100 mm`) y divisorias.
-  * **Nivel 2 (Bloques personalizados):** `Muebles.definir_pieza`, `Muebles.colocar`, `Muebles.pieza` para diseñar cocinas, clósets, escritorios o muebles a medida sin límites.
-  * **Jerarquía de Grupos lista para mover:** Agrupa por Gabinete $\rightarrow$ `Casco` + `Cajón N` (caja + tapa frontal juntas).
-  * **Integración nativa con OpenCutList:** Configura materiales automáticamente como `Tablero (Sheet Good)` con placa útil de `2400 × 1200 mm` y unidades en `mm`.
-  * **Exportador directo para proveedor (`0 tokens`):** `Muebles.exportar_pedido` genera en el Escritorio el `.csv` de 10 columnas con cubrecantos (`Largo 1`, `Largo 2`, `Ancho 1`, `Ancho 2`).
+## Key Features
+* **Silent Auto-Start in SketchUp:** The local TCP server (`127.0.0.1:9876`) starts automatically when SketchUp launches without popping open the Ruby Console window.
+* **Native `Muebles` Ruby Library (`muebles_lib.rb`):**
+  * **Level 1 (1-Line Shortcuts):** `Muebles.cajon(...)`, `Muebles.cajonera(...)` with automatic calculation for telescopic slides (`13 mm` clearance per side), toe kicks (`80 mm`), top stretchers (`100 mm`), and vertical dividers.
+  * **Level 2 (Custom Building Blocks):** `Muebles.definir_pieza`, `Muebles.colocar`, `Muebles.pieza` to build custom kitchens, closets, desks, or cabinets without restrictions.
+  * **Hierarchical Grouping Ready for Visualization:** Automatically groups by Cabinet $\rightarrow$ `Casco` (shell) + `Cajón N` (drawer box + front panel grouped together so you can slide or move each drawer with a single click).
+  * **Native OpenCutList Integration:** Automatically configures materials as `Sheet Good` with `2400 × 1200 mm` usable board dimensions, `mm` model units, Navetta melamine catalog & textures, and smart grain direction (`ignore_grain_direction` on hidden internal parts to optimize sheet yield).
+  * **Zero-Token Supplier Order Exporter:** `Muebles.exportar_pedido` exports the 10-column supplier `.csv` directly to your Desktop with automatic edge-banding rules (`Largo 1`, `Largo 2`, `Ancho 1`, `Ancho 2`).
 
 ---
 
-## Instalación en 1 Clic
+## 1-Click Installation
 
-### En Windows (PowerShell)
+### Windows (PowerShell)
 ```powershell
 git clone https://github.com/byncvn/sketchup-antigravity-mcp.git sketchup-mcp
 cd sketchup-mcp
 .\install.ps1
 ```
 
-### En macOS (Terminal)
+### macOS (Terminal)
 ```bash
 git clone https://github.com/byncvn/sketchup-antigravity-mcp.git sketchup-mcp
 cd sketchup-mcp
@@ -30,7 +30,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-Ambos instaladores configuran automáticamente:
-1. El entorno virtual `.venv` y el servidor Python MCP (`mcp[cli]>=1.3.0,<2.0.0`).
-2. El plugin de SketchUp (`su_mcp.rb` + `su_mcp/main.rb` + `su_mcp/muebles_lib.rb`) en todas las versiones de SketchUp instaladas (`%APPDATA%\SketchUp` en Windows o `~/Library/Application Support/SketchUp 20XX` en Mac).
-3. La regla global `~/.gemini/config/rules/sketchup-muebles.md` y el archivo `~/.gemini/config/mcp_config.json` en Antigravity.
+Both installers automatically configure:
+1. The isolated `.venv` virtual environment and Python MCP server (`mcp[cli]>=1.3.0,<2.0.0`).
+2. The SketchUp Ruby plugin (`su_mcp.rb` + `su_mcp/main.rb` + `su_mcp/muebles_lib.rb` + `textures_navetta/`) across all installed SketchUp versions (`%APPDATA%\SketchUp` on Windows or `~/Library/Application Support/SketchUp 20XX` on macOS).
+3. The global Antigravity rule (`~/.gemini/config/rules/sketchup-muebles.md`) and MCP server entry (`~/.gemini/config/mcp_config.json`).

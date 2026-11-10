@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Instalador de SketchUp MCP + Librería Muebles para Antigravity (macOS / Linux)
+# SketchUp MCP + Muebles Library Installer for Antigravity (macOS / Linux)
 set -e
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "1. Configurando entorno virtual de Python (.venv)..."
+echo "1. Setting up Python virtual environment (.venv)..."
 if [ ! -d "$REPO_ROOT/.venv" ]; then
   python3 -m venv "$REPO_ROOT/.venv"
 fi
 "$REPO_ROOT/.venv/bin/pip" install -e "$REPO_ROOT"
 
-echo "2. Instalando plugin su_mcp y librería Muebles en SketchUp (macOS)..."
+echo "2. Installing su_mcp plugin and Muebles library into SketchUp (macOS)..."
 SKETCHUP_BASE="$HOME/Library/Application Support"
 FOUND_SU=0
 for dir in "$SKETCHUP_BASE"/SketchUp\ 20*; do
@@ -21,15 +21,15 @@ for dir in "$SKETCHUP_BASE"/SketchUp\ 20*; do
     cp -f "$REPO_ROOT/su_mcp/su_mcp.rb" "$PLUGIN_DIR/su_mcp.rb"
     rm -rf "$PLUGIN_DIR/su_mcp"
     cp -R "$REPO_ROOT/su_mcp/su_mcp" "$PLUGIN_DIR/su_mcp"
-    echo "   -> Instalado en: $PLUGIN_DIR"
+    echo "   -> Installed in: $PLUGIN_DIR"
   fi
 done
 
 if [ "$FOUND_SU" -eq 0 ]; then
-  echo "   [Aviso] No se encontraron carpetas 'SketchUp 20XX' en ~/Library/Application Support."
+  echo "   [Notice] No 'SketchUp 20XX' folders found in ~/Library/Application Support."
 fi
 
-echo "3. Configurando Reglas y Servidor MCP en Antigravity (~/.gemini/config)..."
+echo "3. Configuring Antigravity Rules and MCP Server (~/.gemini/config)..."
 GEMINI_CONFIG="$HOME/.gemini/config"
 RULES_DIR="$GEMINI_CONFIG/rules"
 mkdir -p "$RULES_DIR"
@@ -53,4 +53,4 @@ with open(path, 'w', encoding='utf-8') as f:
     json.dump(data, f, indent=2)
 "
 
-echo "¡Instalación completada con éxito en macOS! Abre SketchUp y úsalo desde Antigravity."
+echo "Installation completed successfully on macOS! Launch SketchUp and use it from Antigravity."

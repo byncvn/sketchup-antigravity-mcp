@@ -80,9 +80,15 @@ module Muebles
     end
 
     def material_navetta(color_key, espesor_mm = nil)
-      info = CATALOGO_NAVETTA[color_key] || CATALOGO_NAVETTA['Encino Europeo']
+      info = CATALOGO_NAVETTA[color_key] || CATALOGO_NAVETTA['Roble Blanco']
       sufijo = espesor_mm ? " #{espesor_mm}mm" : ''
-      material("Navetta - #{color_key}#{sufijo}", info[:rgb], con_veta: info[:veta])
+      mat = material("Navetta - #{color_key}#{sufijo}", info[:rgb], con_veta: info[:veta])
+      tex_file = File.join('C:/Users/ggeta/.gemini/antigravity/scratch/sketchup-mcp/su_mcp/su_mcp/textures_navetta', "#{color_key.tr(' ', '_')}.png")
+      if File.exist?(tex_file)
+        mat.texture = tex_file
+        mat.texture.size = [600.mm, 1200.mm]
+      end
+      mat
     end
 
     def cargar_catalogo_navetta(espesor_mm = nil)
