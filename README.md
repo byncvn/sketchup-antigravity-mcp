@@ -1,106 +1,36 @@
-# SketchupMCP - Sketchup Model Context Protocol Integration
+# SketchUp MCP + Librería `Muebles` para Antigravity (Windows & macOS)
 
-SketchupMCP connects Sketchup to Claude AI through the Model Context Protocol (MCP), allowing Claude to directly interact with and control Sketchup. This integration enables prompt-assisted 3D modeling, scene creation, and manipulation in Sketchup.
+Integración optimizada entre **SketchUp (2024/2025/2026)**, **OpenCutList** y **Antigravity** mediante el protocolo MCP, diseñada para fabricar muebles en melamina/madera ahorrando hasta un **90% de tokens**.
 
-Big Shoutout to [Blender MCP](https://github.com/ahujasid/blender-mcp) for the inspiration and structure.
+## Características Principales
+* **Auto-arranque silencioso en SketchUp:** El servidor TCP (`127.0.0.1:9876`) inicia automáticamente al abrir SketchUp sin abrir la ventana de la consola Ruby.
+* **Librería nativa `Muebles` (`muebles_lib.rb`):**
+  * **Nivel 1 (1 línea):** `Muebles.cajon(...)`, `Muebles.cajonera(...)` con cálculo automático de correderas (`13 mm`), zócalos (`80 mm`), amarres (`100 mm`) y divisorias.
+  * **Nivel 2 (Bloques personalizados):** `Muebles.definir_pieza`, `Muebles.colocar`, `Muebles.pieza` para diseñar cocinas, clósets, escritorios o muebles a medida sin límites.
+  * **Jerarquía de Grupos lista para mover:** Agrupa por Gabinete $\rightarrow$ `Casco` + `Cajón N` (caja + tapa frontal juntas).
+  * **Integración nativa con OpenCutList:** Configura materiales automáticamente como `Tablero (Sheet Good)` con placa útil de `2400 × 1200 mm` y unidades en `mm`.
+  * **Exportador directo para proveedor (`0 tokens`):** `Muebles.exportar_pedido` genera en el Escritorio el `.csv` de 10 columnas con cubrecantos (`Largo 1`, `Largo 2`, `Ancho 1`, `Ancho 2`).
 
-## Features
+---
 
-* **Two-way communication**: Connect Claude AI to Sketchup through a TCP socket connection
-* **Component manipulation**: Create, modify, delete, and transform components in Sketchup
-* **Material control**: Apply and modify materials and colors
-* **Scene inspection**: Get detailed information about the current Sketchup scene
-* **Selection handling**: Get and manipulate selected components
-* **Ruby code evaluation**: Execute arbitrary Ruby code directly in SketchUp for advanced operations
+## Instalación en 1 Clic
 
-## Components
-
-The system consists of two main components:
-
-1. **Sketchup Extension**: A Sketchup extension that creates a TCP server within Sketchup to receive and execute commands
-2. **MCP Server (`sketchup_mcp/server.py`)**: A Python server that implements the Model Context Protocol and connects to the Sketchup extension
-
-## Installation
-
-### Python Packaging
-
-We're using uv so you'll need to ```brew install uv```
-
-### Sketchup Extension
-
-1. Download or build the latest `.rbz` file
-2. In Sketchup, go to Window > Extension Manager
-3. Click "Install Extension" and select the downloaded `.rbz` file
-4. Restart Sketchup
-
-## Usage
-
-### Starting the Connection
-
-1. In Sketchup, go to Extensions > SketchupMCP > Start Server
-2. The server will start on the default port (9876)
-3. Make sure the MCP server is running in your terminal
-
-### Using with Claude
-
-Configure Claude to use the MCP server by adding the following to your Claude configuration:
-
-```json
-    "mcpServers": {
-        "sketchup": {
-            "command": "uvx",
-            "args": [
-                "sketchup-mcp"
-            ]
-        }
-    }
+### En Windows (PowerShell)
+```powershell
+git clone <URL_DE_TU_REPO> sketchup-mcp
+cd sketchup-mcp
+.\install.ps1
 ```
 
-This will pull the [latest from PyPI](https://pypi.org/project/sketchup-mcp/)
+### En macOS (Terminal)
+```bash
+git clone <URL_DE_TU_REPO> sketchup-mcp
+cd sketchup-mcp
+chmod +x install.sh
+./install.sh
+```
 
-Once connected, Claude can interact with Sketchup using the following capabilities:
-
-#### Tools
-
-* `get_scene_info` - Gets information about the current Sketchup scene
-* `get_selected_components` - Gets information about currently selected components
-* `create_component` - Create a new component with specified parameters
-* `delete_component` - Remove a component from the scene
-* `transform_component` - Move, rotate, or scale a component
-* `set_material` - Apply materials to components
-* `export_scene` - Export the current scene to various formats
-* `eval_ruby` - Execute arbitrary Ruby code in SketchUp for advanced operations
-
-### Example Commands
-
-Here are some examples of what you can ask Claude to do:
-
-* "Create a simple house model with a roof and windows"
-* "Select all components and get their information"
-* "Make the selected component red"
-* "Move the selected component 10 units up"
-* "Export the current scene as a 3D model"
-* "Create a complex arts and crafts cabinet using Ruby code"
-
-## Troubleshooting
-
-* **Connection issues**: Make sure both the Sketchup extension server and the MCP server are running
-* **Command failures**: Check the Ruby Console in Sketchup for error messages
-* **Timeout errors**: Try simplifying your requests or breaking them into smaller steps
-
-## Technical Details
-
-### Communication Protocol
-
-The system uses a simple JSON-based protocol over TCP sockets:
-
-* **Commands** are sent as JSON objects with a `type` and optional `params`
-* **Responses** are JSON objects with a `status` and `result` or `message`
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-MIT 
+Ambos instaladores configuran automáticamente:
+1. El entorno virtual `.venv` y el servidor Python MCP (`mcp[cli]>=1.3.0,<2.0.0`).
+2. El plugin de SketchUp (`su_mcp.rb` + `su_mcp/main.rb` + `su_mcp/muebles_lib.rb`) en todas las versiones de SketchUp instaladas (`%APPDATA%\SketchUp` en Windows o `~/Library/Application Support/SketchUp 20XX` en Mac).
+3. La regla global `~/.gemini/config/rules/sketchup-muebles.md` y el archivo `~/.gemini/config/mcp_config.json` en Antigravity.
