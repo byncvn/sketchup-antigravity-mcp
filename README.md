@@ -17,14 +17,14 @@ Integración optimizada entre **SketchUp (2024/2025/2026)**, **OpenCutList** y *
 
 ### En Windows (PowerShell)
 ```powershell
-git clone <URL_DE_TU_REPO> sketchup-mcp
+git clone https://github.com/byncvn/sketchup-antigravity-mcp.git sketchup-mcp
 cd sketchup-mcp
 .\install.ps1
 ```
 
 ### En macOS (Terminal)
 ```bash
-git clone <URL_DE_TU_REPO> sketchup-mcp
+git clone https://github.com/byncvn/sketchup-antigravity-mcp.git sketchup-mcp
 cd sketchup-mcp
 chmod +x install.sh
 ./install.sh
